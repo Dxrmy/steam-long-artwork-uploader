@@ -1,13 +1,6 @@
 # Steam Long Artwork Uploader
 
-A lightweight Python script that automates the "long artwork" Steam exploit. Instead of manually pasting JavaScript into your browser console, this script dynamically fetches your upload tokens, forces the 1000x1 resolution exploit, and securely pushes your files straight to Steam's hidden ingest servers.
-
-## Features
-
-- **Fully Automated:** Bypasses Steam's image size limits instantly without browser consoles.
-- **Dynamic Token Extraction:** Replicates a real browser session by scraping the required dynamic CSRF tokens (`wg`, `wg_hmac`, etc.) directly from Steam.
-- **Showcase Support:** Can upload images specifically formatted for both the **Artwork Showcase** and the **Screenshot Showcase**.
-- **SSL Bypass:** Circumvents strict SSL certificate mismatch errors commonly found on Steam's internal file ingest servers (`depot_ingest.discovery.steamserver.net`).
+Usually you have to paste JS into the browser to upload long Steam artwork. This script automates it by scraping your tokens and uploading the image directly.
 
 ## Prerequisites
 
