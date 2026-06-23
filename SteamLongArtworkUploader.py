@@ -28,24 +28,24 @@ def upload_long_image(file_path, title, sessionid, steamLoginSecure, is_screensh
             print("\n[X] Error: You are not logged in. Your cookies are invalid or expired.")
             return
 
-        # Extract the dynamic upload URL
+
         action_match = re.search(r'action="(https://[^"]+)"', r.text[r.text.find('id="SubmitItemForm"'):])
         if not action_match:
             print("\n[X] Error: Could not find the upload endpoint in the page HTML.")
             return
         post_url = action_match.group(1)
 
-        # Extract all hidden tokens required by Steam
+
         data = {}
         for match in re.finditer(r'<input type="hidden" name="([^"]+)"(?: id="[^"]+")? value="([^"]*)"', r.text):
             data[match.group(1)] = match.group(2)
             
-        # Extract the dynamic filename prefix required for the ingest server
+
         prefix_match = re.search(r"cloudfilenameprefix\.value\s*=\s*'([^']+)';", r.text)
         if prefix_match:
             data['cloudfilenameprefix'] = prefix_match.group(1)
 
-        # Apply the long image exploit and custom details
+
         data['image_width'] = '1000'
         data['image_height'] = '1'
         data['title'] = title
@@ -68,10 +68,10 @@ def upload_long_image(file_path, title, sessionid, steamLoginSecure, is_screensh
             print(f"Uploading to Steam server...")
             response = session.post(post_url, data=data, files=files, allow_redirects=False, verify=False)
             
-            # The ingest server returns a 302 redirect to the file details page on success
+
             if response.status_code in [301, 302, 303] and "filedetails" in response.headers.get('Location', ''):
                 print(f"\n[SUCCESS] Uploaded! View it here: {response.headers.get('Location')}")
-            # Or if it posts to saveitem and returns 200 with redirect in HTML
+
             elif "filedetails" in response.text or "filedetails" in response.url:
                 print("\n[SUCCESS] Uploaded successfully!")
             else:
